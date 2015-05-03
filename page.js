@@ -15,7 +15,7 @@ function message (txt) {
 	$("message").innerHTML=txt;
 }
 
-chrome.storage.local.get({"list":['*twitter.com*', '*facebook1.*']}, function(val){
+chrome.storage.sync.get({"list":['*twitter.com*', '*facebook1.*']}, function(val){
 	$("txtlist").value = val.list.join("\n");
 });
 
@@ -25,7 +25,7 @@ function saveChanges() {
       message('错误: 列表未指定');
       return;
     }
-    chrome.storage.local.set({'list': theValue.split(/\r\n|\n\r|\n|\r/) }, function() {
+    chrome.storage.sync.set({'list': theValue.split(/\r\n|\n\r|\n|\r/) }, function() {
       message('列表已保存');
       chrome.runtime.sendMessage({msg:"saveList", value: theValue }, function(){
       	

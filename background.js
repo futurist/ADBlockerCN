@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
 var blocks=[];
 
-chrome.storage.local.get({"list":['*twitter.com*', '*facebook1.*']}, function(val){
+chrome.storage.sync.get({"list":['*twitter.com*', '*facebook1.*']}, function(val){
 	blocks = val.list;
 });
 
