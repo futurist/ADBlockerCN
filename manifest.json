@@ -1,0 +1,17 @@
+{
+  "name": "AD Blocker for China",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "AD Blocker for China!",
+  "browser_action": {
+    "default_title":"AD Blocker List",
+    "default_popup" : "page.html"
+  },
+  "background": {
+    "page": "bg.html"
+  },
+  "permissions": [
+    "activeTab", "tabs", "webRequest", "webRequestBlocking", "webNavigation", "processes", "storage",
+    "<all_urls>"
+  ]
+}
