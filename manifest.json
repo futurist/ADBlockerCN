@@ -11,7 +11,7 @@
     "page": "bg.html"
   },
   "permissions": [
-    "activeTab", "tabs", "webRequest", "webRequestBlocking", "webNavigation", "processes", "storage",
+    "activeTab", "tabs", "webRequest", "webRequestBlocking", "webNavigation", "storage",
     "<all_urls>"
   ]
 }
