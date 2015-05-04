@@ -55,16 +55,21 @@ function testURLBlocks(url) {
 		// Implement for the Google URL Patterns: 
 		// https://developer.chrome.com/extensions/match_patterns
 		
-		var proto = blocks[i].split( "//",2 );
-		if( proto.length<2 ) return;
-		var host = proto[1].split("/",2);
+		//http://stackoverflow.com/questions/4607745/split-string-only-on-first-instance-of-specified-character
+		var part_a = blocks[i].split( /\/\/(.*)?/ );
+		if( part_a.length<2 ) {
+			part_a.unshift("*");
+		}
+		if(part_a[0]=="") part_a[0]="*";
+		var part_b = part_a[1].split(/\/(.*)?/);	
 
-		var regStr = proto[0].replace(/\*/g, '[^/]*').replace(/\./g,"\\.");
-		regStr += "//"+ host[0].replace(/\*/g, '[^/]*').replace(/\./g,"\\.");
-		regStr += "/" + host.length>1 ? host[1].replace(/\*/g, '.*') : ".*";
+		var regStr = part_a[0].replace(/\*/g, '[^/]*').replace(/\./g,"\\.");
+		regStr += "//"+ ( part_b[0].replace(/\*/g, '[^/]*').replace(/\./g,"\\.") );
+		regStr += "/" + ( part_b.length>1 ? part_b[1].replace(/\*/g, '.*') : ".*" );
 
 		r = new RegExp('^' + regStr + '$');
-		//console.log(r);
+		if(url == 'http://news.china.com/zh_cn/hd/11127798/20150502/19617582.html') console.log(r);
+
         if (r.test(url)) {
             return true;
         }
