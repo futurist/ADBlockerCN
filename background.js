@@ -100,10 +100,12 @@ chrome.webRequest.onHeadersReceived.addListener(
 
         //if( /image|object/.test(e.type) ) return; 
         var headers = e.responseHeaders;
-
-        addToHeader(headers, "Access-Control-Allow-Origin", "*" );
-        addToHeader(headers, "Access-Control-Allow-Credentials", "false" );
-        //addToHeader(headers, "Access-Control-Allow-Headers", "X-Requested-With" );
+        var Credentials = _.findWhere(headers, {"name":"Access-Control-Allow-Credentials"} );
+        if( ! (Credentials && Credentials.value.toLowerCase()=="true") ){
+            addToHeader(headers, "Access-Control-Allow-Origin", "*" );
+            //addToHeader(headers, "Access-Control-Allow-Credentials", "false" );
+            //addToHeader(headers, "Access-Control-Allow-Headers", "X-Requested-With" );
+        }
 
         return {responseHeaders: headers};
     },
