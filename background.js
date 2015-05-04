@@ -49,8 +49,22 @@ chrome.storage.sync.get({"list":['*twitter.com*', '*facebook1.*']}, function(val
 
 function testURLBlocks(url) {
     var r, i;
+	if( !testURLMatches(url) ) return;
     for (i=blocks.length-1; i>=0; i--) {
-        r = new RegExp('^' + blocks[i].replace(/\*/g, '.*') + '$');
+		
+		// Implement for the Google URL Patterns: 
+		// https://developer.chrome.com/extensions/match_patterns
+		
+		var proto = blocks[i].split( "//",2 );
+		if( proto.length<2 ) return;
+		var host = proto[1].split("/",2);
+
+		var regStr = proto[0].replace(/\*/g, '[^/]*').replace(/\./g,"\\.");
+		regStr += "//"+ host[0].replace(/\*/g, '[^/]*').replace(/\./g,"\\.");
+		regStr += "/" + host.length>1 ? host[1].replace(/\*/g, '.*') : ".*";
+
+		r = new RegExp('^' + regStr + '$');
+		//console.log(r);
         if (r.test(url)) {
             return true;
         }
